@@ -8,7 +8,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 - [Prisma](https://www.prisma.io/)
 - [Node.js](https://nodejs.org/en/)
-- [React Native](https://reactnative.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 
 ### 🚀 Rodando a API
