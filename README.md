@@ -2,6 +2,13 @@
 
 API desenvolvida em NodeJS, com autenticação JWT utilizando access tokens e refresh tokens.
 
-yarn
-yarn prisma migrate dev
-yarn dev
+```bash
+# Instale as dependências
+$ yarn
+
+# Execute a migrations
+$ yarn prisma migrate dev
+
+# Inicie a aplicação
+$ yarn dev
+```
