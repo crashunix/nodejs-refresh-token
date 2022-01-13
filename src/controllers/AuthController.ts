@@ -60,6 +60,7 @@ class AuthController {
 
     refreshToken = async (req: Request, res: Response) => {
         const { refresh_token } = req.body;
+        console.log(refresh_token);
         const refreshToken = await context.refreshToken.findFirst({
             where: {
                 id: refresh_token
@@ -72,22 +73,25 @@ class AuthController {
         
         const refreshTokenExpired = dayjs().isAfter(dayjs.unix(refreshToken.expiresIn));
         
-        const generateTokenProvider = new GenerateTokenProvider();
-        const token = await generateTokenProvider.execute(refreshToken.userId);
-        
-        if(refreshTokenExpired) {
-            await context.refreshToken.deleteMany({
-                where: {
-                    userId: refreshToken.userId
-                }
-            });
-            const  generateRefreshTokenProvider = new GenerateRefreshTokenProvider();
-            const newRefreshToken = await generateRefreshTokenProvider.execute(refreshToken.userId);
-            
-            return res.status(200).json({ token, newRefreshToken})
+        if(refreshTokenExpired) {    
+            throw new Error("Refresh token invalid!");
         }
         
-        return res.status(200).json({ token });
+        await context.refreshToken.deleteMany({
+            where: {
+                userId: refreshToken.userId
+            }
+        });
+        
+        const generateTokenProvider = new GenerateTokenProvider();
+        const token = await generateTokenProvider.execute(refreshToken.userId);
+        console.log("novo access token: ", token);
+
+        const  generateRefreshTokenProvider = new GenerateRefreshTokenProvider();
+        const newRefreshToken = await generateRefreshTokenProvider.execute(refreshToken.userId);
+        console.log("novo refresh token: ", newRefreshToken);
+        
+        return res.status(200).json({ token, refreshToken: newRefreshToken });
     }
 }
 
