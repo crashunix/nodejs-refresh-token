@@ -1,6 +1,6 @@
 import { compare } from "bcryptjs";
 import dayjs from "dayjs";
-import { Request, response, Response } from "express"
+import { Request, response, Response } from "express";
 import getIdFromToken from "../helpers/getIdFromToken";
 import { context } from "../prisma/context";
 import { GenerateRefreshTokenProvider } from "../providers/GenerateRefreshTokenProvider";
